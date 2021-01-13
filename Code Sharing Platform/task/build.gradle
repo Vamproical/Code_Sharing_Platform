@@ -16,5 +16,7 @@ sourceSets.main.resources.srcDirs = ["src/resources"]
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.9'
     compile("org.springframework.boot:spring-boot-starter-web")
 }
