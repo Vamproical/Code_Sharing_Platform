@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <title>Latest</title>
+</head>
+<body>
+<div>
+    <table>
+        <#list codes as code>
+        <span id="load_date">${code.date}</span>
+        <pre id="code_snippet">${code.code}</pre>
+        </#list>
+    </table>
+</div>
+</body>
+</html>

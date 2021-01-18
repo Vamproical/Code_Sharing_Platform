@@ -6,12 +6,9 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  <div class="Content">
-      <h1>Code Sharing Platform</h1><hr>
-      <div class="code_container">
-          <pre><span id="load_date" >DATE</span></pre>
-          <pre id="code_snippet">CODE</pre>
-      </div>
-  </div>
+<div class="code_container">
+    <pre id="code_snippet">${code.code}</pre>
+    <span id="load_date">${code.date}</span>
+</div>
 </body>
 </html>

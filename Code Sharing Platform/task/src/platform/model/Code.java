@@ -1,4 +1,4 @@
-package platform;
+package platform.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +24,11 @@ public class Code {
         this.code = code;
         timeCreated = LocalDateTime.now();
         date = timeCreated.format(FORMATTER);
+    }
+
+    @Override
+    public String toString() {
+        return "code: " + code + "\ndate: " + date;
     }
 
     public String getDate() {
