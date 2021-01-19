@@ -5,30 +5,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 import platform.model.Code;
-import platform.repository.StorageList;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import platform.repository.CodeRepository;
 
 @Controller
 public class UserController {
-    private final StorageList storageList;
+    private final CodeRepository codeRepository;
 
     @Autowired
-    public UserController(StorageList storageList) {
-        this.storageList = storageList;
+    public UserController(CodeRepository codeRepository) {
+        this.codeRepository = codeRepository;
     }
 
-    @GetMapping(path = "/code/{N}", produces = "text/html")
-    public String getHtmlCode(@PathVariable int N, Model model) {
+    @GetMapping(path = "/code/{id}", produces = "text/html")
+    public String getHtmlCode(@PathVariable Long id, Model model) {
         model.addAttribute("code",
-                storageList.getCode(N).isEmpty()
+                codeRepository.findById(id).isEmpty()
                         ? new Code("no code snippet")
-                        : storageList.getCode(N).get());
+                        : codeRepository.findById(id).get());
         return "code";
     }
 
@@ -40,9 +34,7 @@ public class UserController {
 
     @GetMapping(path = "/code/latest", produces = "text/html")
     public String getLatest(Model model) {
-        List<Code> reverse = new ArrayList<>(storageList.getAllCodes());
-        Collections.reverse(reverse);
-        model.addAttribute("codes", reverse.stream().limit(10).collect(Collectors.toList()));
+        model.addAttribute("codes", codeRepository.findTop10ByOrderByCodeIdDesc());
         return "latest";
     }
 }
