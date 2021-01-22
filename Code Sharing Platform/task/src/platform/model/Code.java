@@ -26,7 +26,6 @@ public class Code {
     @JsonIgnore
     private final LocalDateTime created;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    private LocalDateTime expirationTime;
 
     @Column
     private long time;
@@ -58,9 +57,8 @@ public class Code {
     }
     @JsonIgnore
     public Long getTimePasses() {
-        LocalDateTime tmp = created;
         LocalDateTime now = LocalDateTime.now();
-        Duration duration = Duration.between(tmp, now);
+        Duration duration = Duration.between(created, now);
         return duration.getSeconds();
     }
 

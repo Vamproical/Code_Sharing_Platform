@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import platform.model.Code;
 import platform.repository.CodeRepository;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,14 +20,8 @@ public class ApiController {
     }
 
     @GetMapping(path = "/api/code/{uuid}", produces = "application/json;charset=UTF-8")
-    public Code getApiCodeByUUID(@PathVariable String uuid) throws Exception {
-        return UserController.checkRestrictions(uuid, codeRepository);
-        /*Code code = codeRepository.findById(uuid).orElse(null);
-        if (code != null) {
-            UserController.checkRestrictions(code, codeRepository);
-            return code;
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This snippet code does not exist.");*/
+    public Code getApiCodeByUUID(@PathVariable String uuid) {
+        return CodeService.checkRestrictions(uuid, codeRepository);
     }
 
     @PostMapping(value = "/api/code/new")
@@ -46,8 +38,9 @@ public class ApiController {
 
     @GetMapping(path = "/api/code/latest", produces = "application/json;charset=UTF-8")
     public List<Code> getLatest() {
-        List<Code> latest = codeRepository.findAllByViewsAndTime(0, 0);
-        Collections.reverse(latest);
-        return latest.stream().limit(10).collect(Collectors.toList());
+        return CodeService.reverseTop10(codeRepository)
+                .stream()
+                .limit(10)
+                .collect(Collectors.toList());
     }
 }
