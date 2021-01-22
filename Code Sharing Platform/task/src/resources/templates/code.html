@@ -13,6 +13,14 @@
 <div class="code_container">
     <pre id="code_snippet"><code>${code.code}</code></pre>
     <span id="load_date">${code.date}</span>
+    <div>
+        <#if code.isTimeRestriction()>
+        <span id="time_restriction">This code will be available for ${code.time}  seconds</span>
+        </#if>
+        <#if code.isViewsRestriction()>
+        <span id="views_restriction">${code.views} more views allowed</span>
+        </#if>
+    </div>
 </div>
 </body>
 </html>

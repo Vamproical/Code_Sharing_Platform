@@ -5,6 +5,6 @@ import platform.model.Code;
 
 import java.util.List;
 
-public interface CodeRepository extends CrudRepository<Code, Long> {
-    List<Code> findTop10ByOrderByCodeIdDesc();
+public interface CodeRepository extends CrudRepository<Code, String> {
+    List<Code> findAllByViewsAndTime(long views, long time);
 }

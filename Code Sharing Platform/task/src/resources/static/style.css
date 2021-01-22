@@ -24,8 +24,3 @@ html, body {
     height: fit-content;
     border: solid black 2px;
 }
-
-#send_snippet {
-    width: fit-content;
-    margin: 10px 0;
-}

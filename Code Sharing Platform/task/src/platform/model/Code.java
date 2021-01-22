@@ -2,41 +2,111 @@ package platform.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Entity(name = "code")
 public class Code {
 
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
-    private long codeId;
+    private final String codeId;
+
     @Column
     private String code;
 
     @Column
     private String date;
+    @JsonIgnore
+    private final LocalDateTime created;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private LocalDateTime expirationTime;
+
+    @Column
+    private long time;
+
+    @Column
+    private long views;
+
+    @JsonIgnore
+    private boolean timeRestriction;
+
+    @JsonIgnore
+    private boolean viewsRestriction;
 
     public Code() {
-        date = LocalDateTime.now().format(FORMATTER);
+        codeId = UUID.randomUUID().toString();
+        created = LocalDateTime.now();
+        date = created.format(FORMATTER);
+        timeRestriction = false;
+        viewsRestriction = false;
     }
 
-    public Code(String code) {
+    public Code(String code, long time, long views) {
+        codeId = UUID.randomUUID().toString();
         this.code = code;
-        date = LocalDateTime.now().format(FORMATTER);
+        created = LocalDateTime.now();
+        date = created.format(FORMATTER);
+        this.time = time;
+        this.views = views;
+    }
+    @JsonIgnore
+    public Long getTimePasses() {
+        LocalDateTime tmp = created;
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(tmp, now);
+        return duration.getSeconds();
+    }
+
+    public String getCodeId() {
+        return codeId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setCode(String code) {
         this.code = code;
-        date = LocalDateTime.now().format(FORMATTER);
     }
 
-    public long getCodeId() {
-        return codeId;
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public long getViews() {
+        return views;
+    }
+
+    public void setViews(long views) {
+        this.views = views;
+    }
+
+    public void setTimeRestriction(boolean timeRestriction) {
+        this.timeRestriction = timeRestriction;
+    }
+
+    public void setViewsRestriction(boolean viewsRestriction) {
+        this.viewsRestriction = viewsRestriction;
     }
 
     @Override
@@ -44,11 +114,11 @@ public class Code {
         return "code: " + code + "\ndate: " + date;
     }
 
-    public String getDate() {
-        return date;
+    public boolean isViewsRestriction() {
+        return viewsRestriction;
     }
 
-    public String getCode() {
-        return code;
+    public boolean isTimeRestriction() {
+        return timeRestriction;
     }
 }
