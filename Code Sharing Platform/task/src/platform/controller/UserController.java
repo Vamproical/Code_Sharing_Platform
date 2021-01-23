@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import platform.model.Code;
 import platform.repository.CodeRepository;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -27,7 +25,6 @@ public class UserController {
         model.addAttribute("code", snippet);
         return "code";
     }
-
 
 
     @GetMapping(path = "/code/new", produces = "text/html")
